@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Tasks</title>
+</head>
+<body>
+    <h1>Task List</h1>
+    <a href="{{ url_for('add_task') }}">Add New Task</a>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <h2>{{ task.title }}</h2>
+                <p>{{ task.description }}</p>
+                <p>Due: {{ task.due_date.strftime('%Y-%m-%d') }}</p>
+                <p>Status: {{ task.status }}</p>
+                <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit</a>
+                <a href="{{ url_for('delete_task', task_id=task.id) }}">Delete</a>
+                <a href="{{ url_for('task_detail', task_id=task.id) }}">View Details</a>
+                {% if task.status != 'completed' %}
+                    <form action="{{ url_for('update_status', task_id=task.id) }}" method="post">
+                        <input type="hidden" name="status" value="completed">
+                        <input type="submit" value="Mark as Completed">
+                    </form>
+                {% else %}
+                    <span>Completed!</span>
+                {% endif %}
+            </li>
+        {% else %}
+            <li>No tasks found.</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('home') }}">Back to Home</a>
+</body>
+</html>

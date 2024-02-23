@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Details</title>
+</head>
+<body>
+    <h1>Task Details</h1>
+    {% if task %}
+        <div>
+            <h2>Title: {{ task.title }}</h2>
+            <p>Description:</p>
+            <p>{{ task.description }}</p>
+            <p>Due Date: {{ task.due_date.strftime('%Y-%m-%d') if task.due_date else 'No due date set' }}</p>
+            <p>Status: {{ task.status }}</p>
+            <a href="{{ url_for('edit_task', task_id=task.id) }}">Edit Task</a>
+        </div>
+    {% else %}
+        <p>Task not found.</p>
+    {% endif %}
+    <a href="{{ url_for('view_tasks') }}">Back to Task List</a>
+</body>
+</html>
